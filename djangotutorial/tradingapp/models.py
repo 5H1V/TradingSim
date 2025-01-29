@@ -2,7 +2,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 # Stock
-# Time data
+# Time data 
 # Price
 # Quantity Bought
 # Transaction ID
