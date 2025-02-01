@@ -1,0 +1,22 @@
+installations:
+- django
+
+STEPS:
+1. Create django directory
+  - django-admin startproject 'demo'
+  Inside django directory:
+    - __init__.py: makes directory a python package
+    - settings.py:
+    - urls.py: change routes to different django applications
+    - manage.py: acts as cmd line prompt
+2. Create application inside above directory
+  - cd 'demo'- changes directory to the one above
+  - python manage.py startapp 'myapp'
+3. Link application to django application
+  - Add 'myapp' to 'demo'/settings.py "INSTALLED_APPS"
+  Inside myapp directory:
+    - admin.py: allows to register database models so we can view on admin panel
+    - models.py: place database models
+    - tests.py: where we can write automized test cases
+    - views.py: create different views/routes we can access on website
+    - urls.py: place different url roots we connect to views
