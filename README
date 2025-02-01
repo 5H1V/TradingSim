@@ -20,3 +20,12 @@ STEPS:
     - tests.py: where we can write automized test cases
     - views.py: create different views/routes we can access on website
     - urls.py: place different url roots we connect to views
+
+TODO
+- Django, python, sqllite
+- User interface
+- Database for storing user purchases
+- Daily changes
+- Options to trade(buy/sell)
+- Initial budget
+- User input: stock to buy/sell, amount of stock to purhase, asking price
