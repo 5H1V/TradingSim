@@ -30,3 +30,15 @@ TODO
 - Initial budget
 - User input: stock to buy/sell, amount of stock to purhase, asking price
 - Pages: account page, stocks graphs, trading wallet
+
+Process:
+1. User clicks on stock name
+2. Dispaly {name}, {ticker name}, {price}, {current date}
+3. TO ADD LATER- graph with prices and option to choose time length,
+  change in price since time length
+
+CREATE UML
+- STOCK
+  - PRICES, NAME, TICKER NAME, CURRENT DATE, HISTORY
+- HISTORY
+  - PRICES, NAME, TICKER NAME, DATES
