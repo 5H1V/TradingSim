@@ -21,7 +21,7 @@ STEPS:
     - views.py: create different views/routes we can access on website
     - urls.py: place different url roots we connect to views
 
-TODO
+TODO 
 - Django, python, sqllite
 - User interface
 - Database for storing user purchases
