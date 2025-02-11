@@ -1,7 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render, HttpResponse
 
 def home(request):
-    return HttpResponse("Hello, you are at the homepage.")
-
-def login(request):
-    return HttpResponse("Hello, you are at the login page.")
+    return render(request, "home.html")
