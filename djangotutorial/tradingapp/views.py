@@ -4,6 +4,6 @@ from .models import TodoItem
 def home(request):
     return render(request, "home.html")
 
-def todos(request):
+def wallet(request):
     items = TodoItem.objects.all()
-    return render(request, "todos.html", {"todos": items})
+    return render(request, "wallet.html", {"wallet": items})
