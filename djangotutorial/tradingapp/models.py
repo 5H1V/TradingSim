@@ -6,22 +6,23 @@ class TodoItem(models.Model):
 
 class User(models.Model):
     user_name
-    user_ID
     password
+    user_id
     trading_wallet
-    stocks_owned
 
 class trading_wallet(models.Model):
+    user_id
+    trading_password
     stocks_owned
-    password
+    balance
+    updated_balance
     
 class stocks_owned(models.Model):
-    stock
-    time data 
-    price
-    quantity Bought
-    transaction ID
-    user_ID
+    user_id
+    stocks
+    avg_price
+    quantity_bought
+    transaction_id
 
 class stocks(models.Model):
     price
