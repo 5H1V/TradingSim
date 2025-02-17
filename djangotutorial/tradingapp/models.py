@@ -1,17 +1,15 @@
 from django.db import models
-    
-class TodoItem(models.Model):
-    title = models.CharField(max_length=200)
-    completed = models.BooleanField(default=False)
+from django.utils import timezone
 
 class User(models.Model):
-    user_name
-    password
-    user_id
+    user_name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+    # Edit password to be safer
+    password = models.CharField(max_length=50, null=False, blank=False)
+    user_id = models.CharField(max_length=50, null=False, blank=False, unique=True)
     trading_wallet
 
 class trading_wallet(models.Model):
-    user_id
+    user_id = models.ForeignKey(User, )
     trading_password
     stocks_owned
     balance
