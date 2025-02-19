@@ -6,7 +6,6 @@ from django.shortcuts import reverse
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    user_id = models.CharField(max_length=50, blank=False, null=False)
 
     def __str__(self):
         return self.user.username
@@ -69,15 +68,6 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
-
-class Refund(models.Model):
-    buy = models.ForeignKey(Buy, on_delete=models.CASCADE)
-    accepted = models.BooleanField(default=False)
-    email = models.EmailField()
-
-    def __str__(self):
-        return f"{self.pk}"
-
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
     if created:
