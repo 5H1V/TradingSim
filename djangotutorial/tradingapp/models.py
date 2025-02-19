@@ -1,23 +1,92 @@
+from django.db.models.signals import post_save
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
+from django.shortcuts import reverse
 
-class TodoItem(models.Model):
-    username = models.CharField(max_length=50, null=False, blank=False, unique=True)
-    password = models.CharField(max_length=50, null=False, blank=False)
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user_id = models.CharField(max_length=50, blank=False, null=False)
 
-    def __repr__(self):
-        return '<User {}>'.format(self.username)
+    def __str__(self):
+        return self.user.username
 
+class Stock(models.Model):
+    stock_name = models.CharField(max_length=100)
+    price = models.FloatField()
+    ticker = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.stock_name
+
+    def get_add_to_cart_url(self):
+        return reverse("core:add-to-cart")
+
+    def get_remove_from_cart_url(self):
+        return reverse("core:remove-from-cart")
+
+class BuyStock(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} of {self.stock.stock_name}"
+
+    def get_final_price(self):
+        return self.quantity * self.stock.price
+
+class Buy(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    
+    stocks = models.ManyToManyField(BuyStock)
+    
+    start_date = models.DateTimeField(auto_now_add=True)
+    ordered_date = models.DateTimeField()
+    ordered = models.BooleanField(default=False)
+    payment = models.ForeignKey(
+        'Payment', on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+    def get_total(self):
+        total = 0
+        for order_stock in self.stocks.all():
+            total += order_stock.get_final_price()
+
+        return total
+
+class Payment(models.Model):
+    stripe_charge_id = models.CharField(max_length=50)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
+
+class Refund(models.Model):
+    buy = models.ForeignKey(Buy, on_delete=models.CASCADE)
+    accepted = models.BooleanField(default=False)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f"{self.pk}"
+
+
+def userprofile_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        userprofile = UserProfile.objects.create(user=instance)
+
+
+post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
 
 '''
-class User(models.Model):
-    username = models.CharField(max_length=50, null=False, blank=False, unique=True)
-    password = models.CharField(max_length=50, null=False, blank=False)
-    user_id = models.IntegerField(max_length=50, primary_key=True)
-
-    def __repr__(self):
-        return '<User {}>'.format(self.username)
-
 class trading_wallet(models.Model):
     user_id = models.ForeignKey(User, )
     # Edit password to be safer
