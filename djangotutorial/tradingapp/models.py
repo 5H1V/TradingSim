@@ -1,10 +1,11 @@
-from django.db.models.signals import post_save
 from django.db import models
-from django.utils import timezone
-from django.conf import settings
-from django.shortcuts import reverse
 
-class UserProfile(models.Model):
+class PortfolioItem(models.Model):
+    symbol = models.CharField(max_length=10)
+    price = models.FloatField()
+    shares = models.IntegerField()
+    
+'''class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -76,7 +77,6 @@ def userprofile_receiver(sender, instance, created, *args, **kwargs):
 
 post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
 
-'''
 class trading_wallet(models.Model):
     user_id = models.ForeignKey(User, )
     # Edit password to be safer

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Portfolio</title>
+</head>
+<body>
+    <h1>Your Portfolio</h1>
+    <ul>
+        {% for stock in portfolio %}
+            <li>{{ stock.symbol }}: {{ stock.shares }} shares at ${{ stock.price }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
+</html>

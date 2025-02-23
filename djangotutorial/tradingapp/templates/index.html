@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Market Simulator</title>
+</head>
+<body>
+    <h1>Stock Market Simulator</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="symbol" placeholder="Enter stock symbol" required>
+        <button type="submit">Get Stock</button>
+    </form>
+    {% if stock %}
+        <h3>{{ stock.symbol }}: ${{ stock.price }}</h3>
+        <button onclick="buyStock('{{ stock.symbol }}', '{{ stock.price }}')">Buy</button>
+    {% endif %}
+    <a href="/portfolio">View Portfolio</a>
+    <script>
+        function buyStock(symbol, price) {
+            fetch('/trade/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({symbol: symbol, price: parseFloat(price)})
+            }).then(response => response.json()).then(data => alert(data.message));
+        }
+    </script>
+</body>
+</html>
