@@ -5,7 +5,7 @@ import requests
 import json
 from .models import PortfolioItem
 
-API_KEY = "d4bcf6529b6c494c8451d65b23806781"
+API_KEY = ""
 
 @csrf_exempt
 def get_stock(request):
