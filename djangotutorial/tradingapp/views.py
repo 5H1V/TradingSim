@@ -5,7 +5,7 @@ import requests
 import json
 from .models import PortfolioItem
 
-API_KEY = "GET_API_KEY"
+API_KEY = "d4bcf6529b6c494c8451d65b23806781"
 
 @csrf_exempt
 def get_stock(request):
@@ -14,15 +14,15 @@ def get_stock(request):
         response = requests.get(f"https://api.twelvedata.com/price?symbol={symbol}&apikey={API_KEY}")
         data = response.json()
         if "price" not in data:
-            return render(request, "index.html", {"error": "Stock not found"})
-        return render(request, "index.html", {"stock": {"symbol": symbol, "price": float(data["price"])}})
-    return render(request, "index.html")
+            return render(request, "home.html", {"error": "Stock not found"})
+        return render(request, "home.html", {"stock": {"symbol": symbol, "price": float(data["price"])}})
+    return render(request, "home.html")
 
 @csrf_exempt
 def trade_stock(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        PortfolioItem.objects.create(symbol=data["symbol"], price=data["price"], shares=1)
+        PortfolioItem.objects.create(symbol=data["symbol"], price=data["price"], shares=PortfolioItem[shares]+=1)
         return JsonResponse({"message": "Trade successful"})
     return JsonResponse({"error": "Invalid request"}, status=400)
 

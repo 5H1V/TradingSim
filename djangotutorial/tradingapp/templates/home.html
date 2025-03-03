@@ -1,13 +1,29 @@
-{% extends "base.html" %} {% block title %} Home Page {% endblock %}
-{% block content %}
-<p>Welcome to the Homepage!</p>
-
-
-
-
-
-
-
-
-
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Market Simulator</title>
+</head>
+<body>
+    <h1>Stock Market Simulator</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="symbol" placeholder="Enter ticker name" required>
+        <button type="submit">Preview Stock</button>
+    </form>
+    {% if stock %}
+        <h3>{{ stock.symbol }}: ${{ stock.price }}</h3>
+        <!--CHANGE THIS BUTTON TO PREVIEW STOCK INSTEAD OF BUY IT...ADD BUY STOCK OPTION TO DIFFERENT PAGE -->
+        <button onclick="previewStock('{{ stock.symbol }}', '{{stock.qty}}', '{{ stock.price }}')">Preview</button>
+    {% endif %}
+    <a href="/portfolio">View Portfolio</a>
+    <script>
+        function previewStock(symbol, qty, price) {
+            fetch('/trade/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({symbol: symbol, qty, price: parseFloat(price)})
+            }).then(response => response.json()).then(data => alert(data.message));
+        }
+    </script>
+</body>
+</html>
